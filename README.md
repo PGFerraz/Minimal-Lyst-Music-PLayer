@@ -4,7 +4,7 @@
 
 ---
 
-## ✨ Features
+## Features
 
 - 🎶 Plays `.mp3`, `.ogg`, `.wav`
 - 🎚️ Volume control
