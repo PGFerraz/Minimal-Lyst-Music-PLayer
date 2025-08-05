@@ -1,0 +1,133 @@
+<MainLayout>:
+
+    # Music Selection
+    FileChooserListView:
+        id: filechooser
+        path: root._musicFolder
+        pos: 488, 71.8
+        size_hint: None, None
+        size: 406.2, 406.2
+        on_selection: root.file_select(self, self.selection)
+
+    # Music Selection top label
+    Label:
+        id: label
+        text: "Selecione um arquivo"
+        size_hint: None, None
+        size: 200, 30
+        pos: 488, 30  # Pode ajustar conforme a necessidade
+
+    # Bar behind music time slider
+    FloatLayout:
+        size_hint: None, None
+        pos: 488, 71.8
+        size: 406.2, 80
+        canvas.before:
+            Color:
+                rgba: 0.2, 0.2, 0.2, 1
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+    # Music time Slider
+    Slider:
+        id: progress_bar
+        min: 0
+        max: 1  # Será atualizado dinamicamente
+        value: 0
+        step: 1
+        size_hint: None, None
+        size: 400, 20
+        pos: 499.3, 95.4
+        cursor_image: root._imgBarThumbImage
+        on_touch_down: root.on_seek_touch_down(*args)
+        on_touch_up: root.on_seek_touch_up(*args)
+
+    # Volume Slider
+    Image:
+        source: root._bgDeviceImage
+        allow_stretch: False
+        pos_hint: {'x': 0.0,'y': 0.0}
+
+    # Volume slider
+    Slider:
+        id: volume_slider
+        min: 0
+        max: 1
+        value: 1
+        step: 0.01
+        cursor_image: root._imgBarThumbImage
+        on_value: root.on_volume_change(self, self.value)
+        size_hint: None, None
+        size: 200, 10
+        pos: (148, 78.1)
+
+    # Lp Image
+    Image:
+        id: vinyl
+        source: root._imgLpImage
+        size_hint: None, None
+        size: 104.2, 104.2
+        pos: (349.7, 229.9)
+        canvas.before:
+            PushMatrix
+            Rotate:
+                angle: root.vinyl_angle
+                origin: self.center
+        canvas.after:
+            PopMatrix
+
+    # Cover Image
+    Image:
+        id: album_cover
+        source: root._imgNoCoverImage
+        size_hint: None, None
+        size: 129.8, 129.8
+        pos: (274.5, 218.4)
+
+    # Play and Pause Button
+    Button:
+        id: play_pause_button
+        size_hint: None, None
+        size: 162, 162
+        pos: (91.4, 201)
+        on_release: root.play_music()
+        background_normal: root._current_normal
+        background_down: root._current_down
+    
+    # Next Music Button
+    Button:
+        background_normal: root._btNextmImage
+        background_down: root._btNextmDownImage
+        size_hint: None, None
+        size: 76.2, 76.2
+        pos: (177.2, 112.6)
+        on_press: root.next_music(1)
+    
+    # Previous Music Button
+    Button:
+        background_normal: root._btPrevmImage
+        background_down: root._btPrevmDownImage
+        size_hint: None, None
+        size: 76.2, 76.2
+        pos: (91.4, 112.6)
+        on_press: root.next_music(2)
+    
+    # Folder Button
+    Button:
+        background_normal: root._btFolderImage
+        background_down: root._btFolderDownImage
+        size_hint: None, None
+        size: 76.2, 76.2
+        pos: (263.4, 112.6)
+        on_press: root.set_defaut_path()
+        
+    # Repeat
+    ToggleButton:
+        id: repeat_button
+        background_normal: root._btRepeatImage
+        background_down: root._btRepeatDownImage
+        size_hint: None, None
+        size: 76.2, 76.2
+        pos: (349.7, 112.6)
+        on_state: root.toggle_repeat(self.state)
